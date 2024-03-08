@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  width: 100dvw;
+  /* height: 100dvh; */
+  background-color: burlywood;
+}
+header {
+  padding-bottom: 10px;
+}
+.navbar {
+  padding: 0px 15px;
+  background-color: #c47a7a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  width: 95vw;
+  display: flex;
+  justify-content: flex-start;
+  padding: 15px 0;
+}
+.sec2 {
+  width: auto;
+  display: flex;
+}
+#reset {
+  padding: 5px 15px;
+  border-radius: 15px;
+  background-color: blanchedalmond;
+  border-color: blanchedalmond;
+}
+.display {
+  display: flex;
+  height: 60px;
+  padding: 15px;
+  font-size: 35px;
+  justify-content: center;
+  align-items: center;
+}
+.contaner {
+  height: 50dvh;
+  /* width: 300px; */
+  /* background-color: #fff; */
+  display: grid;
+  grid-template-columns: auto 250px auto;
+  align-items: center;
+}
+.board {
+  /* height: 95%; */
+  /* width: 300px; */
+  /* padding: 5px; */
+  background-color: #c18888;
+  grid-column: 2/3;
+  display: grid;
+  grid-template-columns: 80px 80px 80px;
+  grid-template-rows: 80px 80px 80px;
+  gap: 5px;
+}
+
+.box {
+  /* height: 14vh; */
+  /* width: 90%; */
+  border-radius: 10%;
+  background-color: blanchedalmond;
+  padding: 5px 20px;
+  font-weight: 700;
+  font-size: 60px;
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.player {
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+.turn {
+  background-color: blanchedalmond;
+  height: 35px;
+  width: 90px;
+  border-radius: 10px;
+  padding: 9px 39px;
+}
