@@ -5,48 +5,61 @@ let player_O = document.getElementById("playerO");
 let player_X = document.getElementById("playerX");
 const tapSound = new Audio("res/sound/tapSound1.mp3");
 let flag = 1;
+let count = 0;
+let winner;
+//          Start Game
+
+printSymbol();
 
 //          Print X or O on Board
 
-for (let i = 0; i < button.length; i++) {
-  button[i].addEventListener("click", function () {
-    if (button[i].innerText == "X" || button[i].innerText == "O") {
-      // If the button is already clicked, do nothing
-    } else {
-      if (flag) {
-        button[i].innerText = "X";
-        tapSound.play();
-        player_O.style.backgroundColor = "#69e969";
-        player_X.style.backgroundColor = "blanchedalmond";
-        flag = 0;
-      } else {
-        button[i].innerText = "O";
-        tapSound.play();
-        player_O.style.backgroundColor = "blanchedalmond";
-        player_X.style.backgroundColor = "#69e969";
-        flag = 1;
-      }
-
-      const winner = check();
-      if (winner) {
-        displayResult[0].innerText = `${winner} wins!`;
-      } else {
-        count++;
-        if (count === 9) {
-          displayResult[0].innerText = "It's a draw!";
-        }
-      }
-    }
-  });
+function printSymbol() {
+  for (let i = 0; i < button.length; i++) {
+    button[i].addEventListener("click", symbol);
+  }
 }
 
-//        Check Who Win's
+function symbol() {
+  if (button[i].innerText == "X" || button[i].innerText == "O") {
+    // If the button is already clicked Do nothing
+  } else {
+    if (flag) {
+      button[i].innerText = "X";
+      tapSound.play();
+      player_O.style.backgroundColor = "#69e969";
+      player_X.style.backgroundColor = "blanchedalmond";
+      flag = 0;
+    } else {
+      button[i].innerText = "O";
+      tapSound.play();
+      player_O.style.backgroundColor = "blanchedalmond";
+      player_X.style.backgroundColor = "#69e969";
+      flag = 1;
+    }
 
-// for (let i = 0; i < 3; i++) {
-//   if (button[i + 1] == `X` && button[i + 4] == `X` && button[i + 7] == `X`) {
-//     console.log(`jj`);
-//   }
-// }
+    winner = check();
+    if (winner) {
+      displayResult[0].innerText = `${winner} wins!`;
+      pauseGame();
+    } else {
+      count++;
+      if (count === 9) {
+        displayResult[0].innerText = `It's a draw!`;
+        pauseGame();
+      }
+    }
+  }
+}
+
+//           Pause Game
+function pauseGame() {
+  for (let i = 0; i < button.length; i++) {
+    button[i].removeEventListener("click", function symbol() {});
+  }
+}
+
+//           Check Who Win's
+
 function check() {
   const winningCombinations = [
     // Rows
@@ -80,20 +93,25 @@ function check() {
   return null; // Return null if there's no winner
 }
 
-//        reset Option
+//            reset Option
 
 resetButton.addEventListener("click", () => {
   for (let i = 0; i < button.length; i++) {
     button[i].innerText = " ";
     player_X.style.backgroundColor = "blanchedalmond";
     player_O.style.backgroundColor = "blanchedalmond";
+    button[i].style.color = "black";
+    displayResult[0].innerText = ` `;
+    printSymbol();
   }
 });
 
-//       Hover effact on Reset Button
+//           Hover effact on Reset Button
 resetButton.addEventListener("mouseenter", () => {
   resetButton.style.backgroundColor = "red";
 });
 resetButton.addEventListener("mouseleave", () => {
   resetButton.style.backgroundColor = "blanchedalmond";
 });
+
+console.log(winner);
