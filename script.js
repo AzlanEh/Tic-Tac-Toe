@@ -1,60 +1,42 @@
-let button = document.getElementsByClassName("box");
-let resetButton = document.getElementById("reset");
-let displayResult = document.getElementsByClassName("display");
-let player_O = document.getElementById("playerO");
-let player_X = document.getElementById("playerX");
+const buttons = document.querySelectorAll(".box");
+const resetButton = document.getElementById("reset");
+const displayResult = document.querySelector(".display");
+const player_O = document.getElementById("playerO");
+const player_X = document.getElementById("playerX");
 const tapSound = new Audio("res/sound/tapSound1.mp3");
-let flag = 1;
-let count = 0;
-let winner;
+
+let gameOver = false;
+let currentPlayer = "X";
+
 //          Start Game
 
-printSymbol();
+// What will print when button is click
 
-//          Print X or O on Board
+function clickXO(event) {
+  const button = event.target;
 
-function printSymbol() {
-  for (let i = 0; i < button.length; i++) {
-    button[i].addEventListener("click", symbol);
-  }
-}
+  if (button.innerText !== "" || gameOver) return;
+  // If the button is already clicked Do nothing
 
-function symbol() {
-  if (button[i].innerText == "X" || button[i].innerText == "O") {
-    // If the button is already clicked Do nothing
-  } else {
-    if (flag) {
-      button[i].innerText = "X";
-      tapSound.play();
-      player_O.style.backgroundColor = "#69e969";
-      player_X.style.backgroundColor = "blanchedalmond";
-      flag = 0;
-    } else {
-      button[i].innerText = "O";
-      tapSound.play();
-      player_O.style.backgroundColor = "blanchedalmond";
-      player_X.style.backgroundColor = "#69e969";
-      flag = 1;
-    }
+  button.innerText = currentPlayer;
+  tapSound.play();
+  //change player
+  currentPlayer = currentPlayer === `X` ? `O` : `X`;
 
-    winner = check();
-    if (winner) {
-      displayResult[0].innerText = `${winner} wins!`;
-      pauseGame();
-    } else {
-      count++;
-      if (count === 9) {
-        displayResult[0].innerText = `It's a draw!`;
-        pauseGame();
-      }
-    }
-  }
-}
+  //if O turn
+  playerO.style.backgroundColor =
+    currentPlayer === "O" ? "#69e969" : "blanchedalmond";
+  //if X turn
+  playerX.style.backgroundColor =
+    currentPlayer === "X" ? "#69e969" : "blanchedalmond";
 
-//           Pause Game
-function pauseGame() {
-  for (let i = 0; i < button.length; i++) {
-    button[i].removeEventListener("click", function symbol() {});
+  const winner = check();
+  if (winner) {
+    displayResult.innerText = `${winner} wins!`;
+    gameOver = true;
+  } else if ([...buttons].every((button) => button.innerText !== ``)) {
+    displayResult.innerText = `It's a draw!`;
+    gameOver = true;
   }
 }
 
@@ -75,35 +57,40 @@ function check() {
     [2, 4, 6],
   ];
 
-  for (let combination of winningCombinations) {
+  for (const combination of winningCombinations) {
     const [a, b, c] = combination;
     if (
-      button[a].innerText &&
-      button[a].innerText === button[b].innerText &&
-      button[a].innerText === button[c].innerText
+      buttons[a].innerText &&
+      buttons[a].innerText === buttons[b].innerText &&
+      buttons[a].innerText === buttons[c].innerText
     ) {
-      button[a].style.color = "Green";
-      button[b].style.color = "Green";
-      button[c].style.color = "Green";
+      buttons[a].style.color = "Green";
+      buttons[b].style.color = "Green";
+      buttons[c].style.color = "Green";
 
-      return button[a].innerText; // Return the winning player's symbol
+      return buttons[a].innerText; // Return the winning player's symbol
     }
   }
 
   return null; // Return null if there's no winner
 }
 
+//          Print X or O on Board
+buttons.forEach((button) => button.addEventListener("click", clickXO));
+
 //            reset Option
 
 resetButton.addEventListener("click", () => {
-  for (let i = 0; i < button.length; i++) {
-    button[i].innerText = " ";
-    player_X.style.backgroundColor = "blanchedalmond";
-    player_O.style.backgroundColor = "blanchedalmond";
-    button[i].style.color = "black";
-    displayResult[0].innerText = ` `;
-    printSymbol();
-  }
+  buttons.forEach((button) => {
+    button.innerText = ``;
+    button.style.color = `black`;
+    gameOver = false;
+  });
+
+  player_X.style.backgroundColor = "blanchedalmond";
+  player_O.style.backgroundColor = "blanchedalmond";
+  currentPlayer = `X`;
+  displayResult.innerText = ``;
 });
 
 //           Hover effact on Reset Button
@@ -113,5 +100,3 @@ resetButton.addEventListener("mouseenter", () => {
 resetButton.addEventListener("mouseleave", () => {
   resetButton.style.backgroundColor = "blanchedalmond";
 });
-
-console.log(winner);
